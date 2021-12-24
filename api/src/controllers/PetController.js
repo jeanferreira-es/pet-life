@@ -13,6 +13,7 @@ module.exports = {
                     console.log(err);
                     return response.json({ success: false });
                 }
+                pool.end();
 
                 return response.json({success: true});
             }
@@ -27,16 +28,30 @@ module.exports = {
         pool.query(
             "SELECT * FROM pet WHERE user_iduser = ?",
             [user_iduser],
-            (err,row) => {
+            (err,rows) => {
                 if(err) {
                     console.log(err);
                     return response.json({ success: false });
                 }
+                
+                if(rows.length){
+                    pool.query(
+                        "SELECT COUNT(*) AS total FROM pet WHERE user_iduser = ?",
+                        [user_iduser],
+                        (err,row) => {
+                            if(err) {
+                                console.log(err);
+                                return response.json({ success: false, total: 0 });
+                            }
+                            pool.end();
 
-                if(row.length){
-                    return response.json({...row[0],success: true});
+                            const { total } = row[0];
+            
+                            return response.json({...rows, success: true, total});
+                        }
+                    );
                 }else {
-                    return response.json({ success: false});
+                    return response.json({ success: false, total: 0 });
                 }
             }
         );
@@ -55,6 +70,7 @@ module.exports = {
                     console.log(err);
                     return response.json({ success: false });
                 }
+                pool.end();
 
                 let success = row.affectedRows ? true : false;
                 return response.json({success});
