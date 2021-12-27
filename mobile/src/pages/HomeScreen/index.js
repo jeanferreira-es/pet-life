@@ -8,7 +8,7 @@ import Logo from '../../assets/images/logo.png'
 import Syring from '../../assets/images/syringe.png'
 import Fish from '../../assets/images/fish.png'
 
-export default function index() {
+export default function index({ navigation }) {
     return (
         <Container style={{ paddingTop: StatusBar.currentHeight+40}}>
             <Text large marginBottomRegular bold>PetLife</Text>

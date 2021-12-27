@@ -60,7 +60,6 @@ export const Button = styled.TouchableOpacity`
     background-color: white;
     align-items: center;
     justify-content: center;
-    margin-bottom: ${General.dimens.regularDistance}px;
 
     ${props => props.purple && css`
         background-color: ${General.colors.purple};
@@ -76,6 +75,10 @@ export const Button = styled.TouchableOpacity`
 
     ${props => props.marginTop && css`
         margin-top: ${General.dimens.regularDistance}px;
+    `}
+
+    ${props => props.marginBottom && css`
+        margin-bottom: ${General.dimens.regularDistance}px;
     `}
 `
 
@@ -94,6 +97,18 @@ export const Box = styled.View`
 
     ${props => props.marginTopLarge && css`
         margin-top: ${General.dimens.largeDistance}px;
+    `}
+
+    ${props => props.row && css`
+        flex-direction: row;
+    `}
+
+    ${props => props.spaceBetween && css`
+        justify-content: space-between;
+    `}
+
+    ${props => props.spaceAround && css`
+        justify-content: space-around;
     `}
 `
 
@@ -140,6 +155,15 @@ export const Card = styled.View`
 
     ${props => props.marginBottom && css`
         margin-bottom: ${General.dimens.regularDistance}px;
+    `}
+
+    ${props => props.lineBorder && css`
+        border-width: 1px;
+        border-color: ${General.colors.gray};
+    `}
+
+    ${props => props.regularPadding && css`
+        padding: ${General.dimens.regularDistance}px;
     `}
 
 `

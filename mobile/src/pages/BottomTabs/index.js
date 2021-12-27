@@ -6,6 +6,7 @@ import FeatherIcons from 'react-native-vector-icons/Feather'
 const Tab = createMaterialBottomTabNavigator();
 
 import HomeScreen from '../HomeScreen'
+import AppointmentScreen from '../AppointmentScreen'
 
 export default function index() {
     return (
@@ -26,7 +27,7 @@ export default function index() {
                             size={20} 
                             color={color} 
                             style={{ 
-                                backgroundColor: General.colors.purple, 
+                                backgroundColor: focused ? General.colors.purple : 'rgba(0,0,0,0)', 
                                 borderRadius: 10, 
                                 paddingHorizontal: 10.9, 
                                 paddingVertical: 10, 
@@ -39,6 +40,30 @@ export default function index() {
                     )
                 }}
             />
+
+            <Tab.Screen
+                name='Appointments'
+                component={AppointmentScreen}
+                options={{
+                    tabBarIcon: ({ focused, color }) => (
+                        <FeatherIcons 
+                            name='file-plus' 
+                            size={20} 
+                            color={color} 
+                            style={{ 
+                                backgroundColor: focused ? General.colors.purple : 'rgba(0,0,0,0)', 
+                                borderRadius: 10, 
+                                paddingHorizontal: 10.9, 
+                                paddingVertical: 10, 
+                                position: 'absolute', 
+                                top: -8, 
+                                width: 40, 
+                                height: 40
+                            }}
+                        />
+                    )
+                }}
+            />  
         </Tab.Navigator>
     )
 }

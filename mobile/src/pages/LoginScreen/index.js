@@ -38,7 +38,7 @@ export default function index({ navigation }) {
                     secureTextEntry={true}
                 />
 
-                <Button purple marginTop onPress={() => navigation.push('BottomTabs',{})}>
+                <Button purple marginTop marginBottom onPress={() => -navigation.push('BottomTabs',{})}>
                     <Text bold white>Entrar</Text>
                 </Button>
 
