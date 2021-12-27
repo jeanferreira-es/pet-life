@@ -5,6 +5,7 @@ export const Text = styled.Text`
     font-family: 'Montserrat-Regular';
     font-size: ${General.dimens.regular_text}px;
     color: ${General.colors.black};
+    text-align: justify;
 
     ${props => props.xLarge && css`
         font-size: ${General.dimens.xLargeText}px;
@@ -30,7 +31,13 @@ export const Text = styled.Text`
         color: ${General.colors.purple};
     `}
 
+    ${props => props.gray && css`
+        color: ${General.colors.dark_gray};
+    `}
 
+    ${props => props.marginBottomSmall && css`
+        margin-bottom: ${General.dimens.smallDistance}px;
+    `}
 
     ${props => props.marginBottomRegular && css`
         margin-bottom: ${General.dimens.regularDistance}px;
@@ -110,6 +117,10 @@ export const Box = styled.View`
     ${props => props.spaceAround && css`
         justify-content: space-around;
     `}
+
+    ${props => props.marginBottom && css`
+        margin-bottom: ${General.dimens.regularDistance}px;
+    `}
 `
 
 export const Card = styled.View`    
@@ -162,8 +173,20 @@ export const Card = styled.View`
         border-color: ${General.colors.gray};
     `}
 
+    ${props => props.lineBorderDashed && css`
+        border-width: 1px;
+        border-color: ${General.colors.gray};
+        border-style: dashed;
+    `}
+
     ${props => props.regularPadding && css`
         padding: ${General.dimens.regularDistance}px;
+    `}
+
+    ${props => props.topBar && css`
+        border-top-width: 15px;
+        border-top-color: violet;
+        border-top-style: solid;
     `}
 
 `

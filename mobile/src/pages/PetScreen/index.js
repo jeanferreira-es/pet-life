@@ -13,20 +13,22 @@ export default function index() {
     const data = [
         {
             id: '1',
-            pet: 'Melissa',
-            hour: 10,
-            date: '16/12/2021',
-            gender: 1,
-            status: 1
+            name: 'Josonel',
+            gender: 0,
+            specie: 'pato'
         },
         {
             id: '2',
-            pet: 'Josonel',
-            hour: 14,
-            date: '11/10/2021',
-            gender: 0,
-            status: 2
+            name: 'Melissa',
+            gender: 1,
+            specie: 'cobra'
         },
+        {
+            id: '3',
+            name: 'Vik',
+            gender: 1,
+            specie: 'gato'
+        }
     ]
 
     return (
@@ -35,21 +37,20 @@ export default function index() {
                 data={data}
                 keyExtractor={data => String(data.id)}
 
-                renderItem={({ item : appointment}) => (
+                renderItem={({ item : pet}) => (
                     <ListCardComponent 
-                        key={appointment.id}
-                        title={'Consulta d'.concat(appointment.gender ? 'a ' : 'o ')+appointment.pet}
-                        subtitle='agendado para às'
-                        rightText={appointment.date}
-                        hour={appointment.hour+'h'}
-                        status={appointment.status}
+                        key={pet.id}
+                        title={pet.name}
+                        rightText={pet.specie}
+                        subtitle={pet.gender ? 'fêmea' : 'macho'}
+                        status={null}
                     />
                 )}
                 ItemSeparatorComponent={() => (<Text/>)}
 
-                ListEmptyComponent={() => <ListEmptyComponent desc='nenhuma consulta'/>}
+                ListEmptyComponent={() => <ListEmptyComponent desc='nenhum pet'/>}
 
-                ListHeaderComponent={() => <ListHeaderComponent title='Minhas consultas'/>}
+                ListHeaderComponent={() => <ListHeaderComponent title='Meus pets'/>}
                 ListHeaderComponentStyle={{
                     marginBottom: 20,
                     paddingVertical: 10,
@@ -67,8 +68,6 @@ export default function index() {
                     marginBottom: 80,
                 }}
             />
-
-            <ListFooterComponent/>
         </Container>
     )
 }
