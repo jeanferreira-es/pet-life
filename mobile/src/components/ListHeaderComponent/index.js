@@ -4,11 +4,13 @@ import general from '../../global/general'
 import { Text, Box, Button} from '../../global/styles'
 
 export default function index({ title, action }) {
+    
+
     return (
         <Box verticalAlign horizontalAlign row>
             <Text large bold>{title}</Text>
             
-            <Button onPress={() => action()}
+            <Button onPress={() => action(true)}
                 style={{ 
                     width: 40, 
                     height: 40, 

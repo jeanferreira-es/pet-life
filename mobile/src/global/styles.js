@@ -47,6 +47,10 @@ export const Text = styled.Text`
         margin-bottom: ${General.dimens.mediumDistance}px;
     `}
     
+    ${props => props.alignLeftSelf && css`
+        align-self: flex-start;
+        margin-left: 15px;
+    `}
 `
 
 export const Input = styled.TextInput`
@@ -58,6 +62,14 @@ export const Input = styled.TextInput`
     font-family: 'Montserrat-Regular';
     elevation: 1;
     color: ${General.colors.black};
+
+    ${props => props.width100 && css`
+        width: 100%;
+    `}
+
+    ${props => props.halfWidth && css`
+        width: 45%;
+    `}
 `
 
 export const Button = styled.TouchableOpacity`
@@ -86,6 +98,19 @@ export const Button = styled.TouchableOpacity`
 
     ${props => props.marginBottom && css`
         margin-bottom: ${General.dimens.regularDistance}px;
+    `}
+
+    ${props => props.halfWidth && css`
+        width: 45%;
+    `}
+
+    ${props => props.pick && css`
+        elevation: 0.5;
+        background-color: ${General.colors.light_gray};
+    `}
+
+    ${props => props.transparent && css`
+        background-color: rgba(0,0,0,0);
     `}
 `
 
@@ -120,6 +145,10 @@ export const Box = styled.View`
 
     ${props => props.marginBottom && css`
         margin-bottom: ${General.dimens.regularDistance}px;
+    `}
+
+    ${props => props.width100 && css`
+        width: 100%;
     `}
 `
 
@@ -183,10 +212,18 @@ export const Card = styled.View`
         padding: ${General.dimens.regularDistance}px;
     `}
 
+    ${props => props.largePadding && css`
+        padding: ${General.dimens.largeDistance}px;
+    `}
+
     ${props => props.topBar && css`
         border-top-width: 15px;
         border-top-color: violet;
         border-top-style: solid;
+    `}
+
+    ${props => props.width100 && css`
+        width: 100%;
     `}
 
 `

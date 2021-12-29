@@ -5,8 +5,6 @@ import { createStackNavigator } from '@react-navigation/stack'
 import LoginScreen from './pages/LoginScreen'
 import SingUpScreen from './pages/SingUpScreen'
 import BottomTabs from './pages/BottomTabs'
-import HomeScreen from './pages/HomeScreen'
-import { Text } from './global/styles'
 
 const Stack = createStackNavigator();
 
@@ -24,11 +22,9 @@ export default function routes() {
                     options={{ 
                         headerShown: true,
                         headerTitle: ''
-
                     }}
                 />
                 <Stack.Screen name="BottomTabs" component={BottomTabs}/>
-                <Stack.Screen name='Home' component={HomeScreen}/>
             </Stack.Navigator>
         </NavigationContainer>
     )

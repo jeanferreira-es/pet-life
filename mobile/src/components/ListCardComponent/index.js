@@ -3,7 +3,7 @@ import { Text, Card, Box, Button} from '../../global/styles'
 import FeatherIcons from 'react-native-vector-icons/Feather'
 import General from '../../global/general'
 
-export default function index({ title, subtitle, rightText, hour, status}) {
+export default function index({ id, title, subtitle, rightText, hour, status, setShow, setId}) {
     const [topColor,setTopColor] = useState('#FFF');
 
     useEffect(() => {
@@ -16,6 +16,11 @@ export default function index({ title, subtitle, rightText, hour, status}) {
             case 3: setTopColor(General.colors.red); break;
         }
     },[]);
+
+    function onChangeDelete(){
+        setShow(true);
+        setId(id);
+    }
 
     return (
         <Card shadow spaceBetween 
@@ -31,7 +36,8 @@ export default function index({ title, subtitle, rightText, hour, status}) {
             </Box>
             <Box spaceBetween row>
                 <Text>{subtitle} <Text bold>{hour}</Text></Text>
-                <Button style={{ elevation: 0, height: 20 }}>
+                
+                <Button onPress={() => onChangeDelete()} style={{ elevation: 0, height: 20 }}>
                     <FeatherIcons name='x' size={20} color="#DDD"/>
                 </Button>
             </Box>

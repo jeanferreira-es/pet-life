@@ -24,6 +24,6 @@ routes.patch('/appointments', AppointmentController.edit);
 routes.post('/bonus', BonusController.store);
 routes.get('/bonus', BonusController.show);
 
-routes.get('/sessions', SessionController.show);
+routes.post('/sessions', SessionController.show);
 
 module.exports = routes;
