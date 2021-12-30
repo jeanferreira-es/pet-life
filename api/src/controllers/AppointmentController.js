@@ -37,7 +37,7 @@ module.exports = {
                 pool.end();
 
                 if(rows.length){
-                    return response.json({...rows, success: true});
+                    return response.json(rows);
                 } else {
                     return response.json({success: false});
                 }
@@ -52,8 +52,10 @@ module.exports = {
         const interval = 9;
 
         pool.query(
-            "SELECT * FROM appointment WHERE user_iduser = ? ORDER BY status ASC LIMIT ? OFFSET ?",
-            [userId, interval, (page-1)*interval],
+            "SELECT * FROM appointment "+
+            "INNER JOIN pet ON pet.idpet = appointment.pet_idpet "+
+            "WHERE appointment.user_iduser = ?  ORDER BY status ASC", //ASC LIMIT ? OFFSET ?
+            [userId],//, interval, (page-1)*interval
             (err,rows) => {
                 if(err) {
                     console.log(err);
@@ -61,24 +63,33 @@ module.exports = {
                 }
                 
                 if(rows.length){
-                    pool.query(
-                        "SELECT COUNT(*) AS total FROM appointment WHERE user_iduser = ?",
-                        [userId],
-                        (err,row) => {
-                            if(err) {
-                                console.log(err);
-                                return response.json({ success: false, total: 0 });
-                            }
-                            pool.end();
-
-                            const { total } = row[0];
-                            return response.json({...rows, success: true, total});
-                        }
-                    );
+                    pool.end();
+                    return response.json(rows);
                 } else {
                     return response.json({...rows, success: false, total: 0});
                 }
 
+            }
+        );
+    },
+
+    count(request, response){
+        const pool = Database.connection();
+        const { userId } = request.params;
+
+        pool.query(
+            "SELECT COUNT(*) AS total FROM appointment WHERE user_iduser = ?",
+            [userId],
+            (err,row) => {
+                if(err) {
+                    console.log(err);
+                    return response.json({ success: false, total: 0 });
+                }
+                pool.end();
+
+                const { total } = row[0];
+
+                return response.json({ total: total });
             }
         );
     },

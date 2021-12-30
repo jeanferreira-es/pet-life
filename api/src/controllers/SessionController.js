@@ -5,7 +5,6 @@ module.exports = {
         const pool = Database.connection();
 
         const {email, password} = request.body;
-        console.log(request.body);
 
         pool.query(
             "SELECT * FROM user WHERE email = ? AND password = SHA1(?)",

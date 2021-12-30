@@ -23,7 +23,7 @@ module.exports = {
 
     show(request, response){
         const pool = Database.connection();
-        const { user_iduser } = request.body;
+        const { user_iduser } = request.query;
 
         pool.query(
             "SELECT * FROM pet WHERE user_iduser = ?",
@@ -35,21 +35,9 @@ module.exports = {
                 }
                 
                 if(rows.length){
-                    pool.query(
-                        "SELECT COUNT(*) AS total FROM pet WHERE user_iduser = ?",
-                        [user_iduser],
-                        (err,row) => {
-                            if(err) {
-                                console.log(err);
-                                return response.json({ success: false, total: 0 });
-                            }
-                            pool.end();
+                    pool.end();
 
-                            const { total } = row[0];
-            
-                            return response.json({...rows, success: true, total});
-                        }
-                    );
+                    return response.json(rows);
                 }else {
                     return response.json({ success: false, total: 0 });
                 }
@@ -58,23 +46,54 @@ module.exports = {
         
     },
 
-    delete(request, response){
+    count(request, response){
         const pool = Database.connection();
-        const { idpet } = request.body;
+        const { userId } = request.params;
+
+        console.log(request.params);
 
         pool.query(
-            "DELETE FROM pet WHERE idpet = ?",
-            [idpet],
+            "SELECT COUNT(*) AS total FROM pet WHERE user_iduser = ?",
+            [userId],
             (err,row) => {
                 if(err) {
                     console.log(err);
-                    return response.json({ success: false });
+                    return response.json({ success: false, total: 0 });
                 }
                 pool.end();
 
-                let success = row.affectedRows ? true : false;
-                return response.json({success});
+                const { total } = row[0];   
+                return response.json({total: total});
             }
         );
+
+    },
+
+    delete(request, response){
+        const pool = Database.connection();
+        const { idpet } = request.query;
+
+        pool.query("DELETE FROM appointment WHERE pet_idpet = ?", [idpet], (err, rows) => {
+            if(err) {
+                console.log(err);
+                return response.json({ success: false });
+            }
+
+            pool.query(
+                "DELETE FROM pet WHERE idpet = ?",
+                [idpet],
+                (err,row) => {
+                    if(err) {
+                        console.log(err);
+                        return response.json({ success: false });
+                    }
+                    pool.end();
+    
+                    let success = row.affectedRows ? true : false;
+                    return response.json({success});
+                }
+            );
+        })
+
     }
 }
