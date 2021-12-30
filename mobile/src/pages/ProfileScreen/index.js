@@ -11,10 +11,12 @@ import OptionsModal from '../../components/OptionsModal'
 export default function index({ navigation }) {
     const [showUpdateProfileModal,setShowUpdateProfileModal] = useState(false);
     const [showOptionsModal, setShowOptionsModal] = useState(false);
+    const [bonus,setBonus] = useState(0);
     const [user,setUser] = useState({});
 
     useEffect(() => {
         loadUserData();
+        loadTotalBonus();
     },[]);
 
     async function loadUserData(){
@@ -22,6 +24,17 @@ export default function index({ navigation }) {
             const userData = JSON.parse(await AsyncStorage.getItem('@user'));
             if(userData != null){
                 setUser(userData);
+            }
+        } catch (error) {
+            console.log('erro ao carregar dados do usuário'+error);
+        }
+    }
+
+    async function loadTotalBonus(){
+        try {
+            const totalBonus = JSON.parse(await AsyncStorage.getItem('@bonus'));
+            if(totalBonus != null){
+                setBonus(totalBonus);
             }
         } catch (error) {
             console.log('erro ao carregar dados do usuário'+error);
@@ -61,7 +74,7 @@ export default function index({ navigation }) {
                     </Box>
 
                     <Circle>
-                        <Text bold xLarge>20</Text>
+                        <Text bold xLarge>{bonus}</Text>
                     </Circle>
                 </Card>
             </Box>

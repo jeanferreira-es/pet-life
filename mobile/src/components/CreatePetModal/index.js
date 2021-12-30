@@ -1,15 +1,37 @@
 import React, { useRef, useState, useEffect } from 'react'
-import { Modal } from 'react-native'
+import { Modal, ToastAndroid } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import FeatherIcons from 'react-native-vector-icons/Feather'
 import { Card, Input, Text, Button } from '../../global/styles'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Container } from './styles'
+import api from '../../services/api'
 
-export default function index({ show, setShow}) {
+import LoadingModal from '../LoadingModal'
+
+export default function index({ show, setShow, updatePets }) {
     const [name,setName] = useState('');
-    const [gender, setGender] = useState(0);
-    const [specie, setSpecie] = useState('');
+    const [gender,setGender] = useState(0);
+    const [specie,setSpecie] = useState('');
+    const [userId,setUserId] = useState(0);
+    const [loading,setLoading] = useState(false);
     const genderPickerRef = useRef();
+
+    useEffect(() => {
+        loadUserData();
+    },[]);
+
+    async function loadUserData(){
+        try {
+            const userData = JSON.parse(await AsyncStorage.getItem('@user'));
+
+            if(userData != null){
+                setUserId(userData.iduser);
+            }
+        } catch (error) {
+            console.log('Erro ao cadastrar pet '+error);
+        }
+    }
 
     function showGenderPicker(){
         genderPickerRef.current.focus();
@@ -17,6 +39,31 @@ export default function index({ show, setShow}) {
 
     function closeGenderPicker(){
         genderPickerRef.current.blur();
+    }
+
+    async function addPet(){
+        if(name.length > 0 && specie.length > 0){
+            setLoading(true);
+            try {
+                const response = await api.post('/pets',{
+                    name, specie, gender, user_iduser: userId
+                });
+
+                if(response.data.success){
+                    ToastAndroid.show('Pet cadastrado com sucesso.',ToastAndroid.LONG);
+                    setShow(false);
+                    setName('');
+                    setSpecie('');
+                    updatePets();
+                }
+            } catch (error) {
+                
+            } finally{
+                setLoading(false);
+            }
+        } else{
+            ToastAndroid.show('Preencha todos os campos.',ToastAndroid.SHORT);
+        }
     }
 
     return (
@@ -59,7 +106,7 @@ export default function index({ show, setShow}) {
                         <Text gray small alignLeftSelf>Genero <Text small>{gender ? 'Fêmea' : 'Macho'}</Text></Text>
                     </Button>
 
-                    <Button purple halfWidth
+                    <Button purple halfWidth onPress={() => addPet()} 
                         style={{
                             alignSelf: 'flex-end'
                         }}
@@ -79,6 +126,7 @@ export default function index({ show, setShow}) {
                     <Picker.Item label='Fêmea' value={1}/>
                 </Picker>
             </Container>
+            <LoadingModal show={loading} setShow={setLoading}/>
         </Modal>
     )
 }

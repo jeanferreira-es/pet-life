@@ -41,6 +41,7 @@ export default function index({ show, setShow, message, action }) {
                     </Box>
                 </Card>
             </Container>
+            
         </Modal>
     )
 }

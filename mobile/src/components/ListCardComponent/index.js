@@ -5,15 +5,22 @@ import General from '../../global/general'
 
 export default function index({ id, title, subtitle, rightText, hour, status, setShow, setId}) {
     const [topColor,setTopColor] = useState('#FFF');
+    const [dateFormated, setDateFormated] = useState('');
 
     useEffect(() => {
         if(status == null) return;
+
+        const newDate = new Date(rightText);
+        const day = newDate.getDate().toString();
+        const month = (newDate.getMonth()+1).toString();
+        const year = newDate.getFullYear().toString();
+        setDateFormated(day+'/'+month+'/'+year);
         
         switch(status){
-            case 0: setTopColor(General.colors.green); break;
-            case 1: setTopColor(General.colors.yellow); break;
-            case 2: setTopColor(General.colors.blue); break;
             case 3: setTopColor(General.colors.red); break;
+            case 2: setTopColor(General.colors.blue); break;
+            case 1: setTopColor(General.colors.yellow); break;
+            case 0: setTopColor(General.colors.green); break;
         }
     },[]);
 
@@ -32,7 +39,7 @@ export default function index({ id, title, subtitle, rightText, hour, status, se
         >
             <Box spaceBetween marginBottom horizontalAlign row>
                 <Text bold>{title}</Text>
-                <Text small>{rightText}</Text>
+                <Text small>{status == null ? rightText : dateFormated}</Text>
             </Box>
             <Box spaceBetween row>
                 <Text>{subtitle} <Text bold>{hour}</Text></Text>
