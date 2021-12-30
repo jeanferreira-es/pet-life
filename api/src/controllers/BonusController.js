@@ -23,7 +23,7 @@ module.exports = {
 
     show(request, response){
         const pool = Database.connection();
-        const { user_iduser } = request.body;
+        const { user_iduser } = request.query;
 
         pool.query(
             "SELECT SUM(value) AS total FROM bonus WHERE user_iduser = ?",
