@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Modal, ToastAndroid } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import FeatherIcons from 'react-native-vector-icons/Feather'
@@ -8,8 +8,11 @@ import { Container } from './styles'
 import api from '../../services/api'
 
 import LoadingModal from '../LoadingModal'
+import CountContext from '../../contexts/count'
 
 export default function index({ show, setShow, updatePets }) {
+    const { totalPets, setTotalPets } = useContext(CountContext);
+
     const [name,setName] = useState('');
     const [gender,setGender] = useState(0);
     const [specie,setSpecie] = useState('');
@@ -55,6 +58,7 @@ export default function index({ show, setShow, updatePets }) {
                     setName('');
                     setSpecie('');
                     updatePets();
+                    setTotalPets(totalPets+1);
                 }
             } catch (error) {
                 

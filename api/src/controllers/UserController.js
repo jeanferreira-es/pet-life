@@ -60,8 +60,9 @@ module.exports = {
 
     delete(request, response){
         const pool = Database.connection();
-        const { id } = request.body;
+        const { id } = request.query;
         
+        console.log(id);
         pool.query(
             "DELETE FROM bonus WHERE user_iduser = ?",
             [id],

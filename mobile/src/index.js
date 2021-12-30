@@ -1,5 +1,6 @@
 import React from 'react'
 import { StatusBar } from 'react-native'
+import { CountProvider } from './contexts/count';
 
 import Routes from './routes'
 
@@ -13,7 +14,9 @@ export default function index() {
                 barStyle='dark-content' 
                 backgroundColor='rgba(0,0,0,0)'
             />
-            <Routes/>
+            <CountProvider>
+                <Routes/>
+            </CountProvider>
         </>
     )
 }

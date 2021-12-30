@@ -1,81 +1,17 @@
-import React, { useState, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Box, Text, Card } from '../../global/styles'
 import { Container, HorizontalLine } from './styles'
 import { Image, StatusBar } from 'react-native'
 import FeatherIcons from 'react-native-vector-icons/Feather'
-import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Logo from '../../assets/images/logo.png'
 import Syring from '../../assets/images/syringe.png'
 import Fish from '../../assets/images/fish.png'
 
-import api from '../../services/api'
+import CountContext from '../../contexts/count'
 
-export default function index({ navigation }) {
-    const [totalAppointments,setTotalAppointments] = useState(0);
-    const [totalPets,setTotalPets] = useState(0);
-    const [totalBonus,setTotalBonus] = useState(0);
-    const [userId,setUserId] = useState(0);
-
-    useEffect(() => {
-        loadingCountAppointments();
-        loadingCountPets();
-        loadingCountBonus();
-    },[]);
-
-    async function loadingCountAppointments(){
-        try {
-            const userData = JSON.parse(await AsyncStorage.getItem('@user'));
-
-            if(userData != null){
-                setUserId(userData.iduser);
-                
-                const response = await api.get('/appointments/count/'+userData.iduser);
-
-                setTotalAppointments(response.data.total);
-            }
-        } catch (error) {
-            
-        }
-    }
-
-    async function loadingCountPets(){
-        try {
-            const userData = JSON.parse(await AsyncStorage.getItem('@user'));
-
-            if(userData != null){                
-                const response = await api.get('/pets/count/'+userData.iduser);
-
-                setTotalPets(response.data.total);
-            }
-        } catch (error) {
-            
-        }
-    }
-
-    async function loadingCountBonus(){
-        try {
-            const userData = JSON.parse(await AsyncStorage.getItem('@user'));
-
-            if(userData != null){                
-                const response = await api.get('/bonus', { 
-                    params: { 
-                        user_isuser: userData.iduser
-                    }
-                });
-
-                setTotalBonus(response.data.total);
-
-                try {
-                    await AsyncStorage.setItem('@bonus',JSON.stringify(response.data.total));
-                } catch (error) {
-                    
-                }
-            }
-        } catch (error) {
-            
-        }
-    }
+export default function index() {
+    const { totalAppointments, totalBonus, totalPets } = useContext(CountContext);
 
     return (
         <Container style={{ paddingTop: StatusBar.currentHeight+40}}>

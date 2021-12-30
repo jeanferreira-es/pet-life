@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useRef, useState, useEffect, useContext } from 'react'
 import { Modal, ToastAndroid } from 'react-native'
 import { Picker } from '@react-native-picker/picker'
 import DateTimePick from '@react-native-community/datetimepicker'
@@ -7,8 +7,11 @@ import { Card, Box, Input, Text, Button } from '../../global/styles'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Container } from './styles'
 import api from '../../services/api'
+import CountContext from '../../contexts/count'
 
 export default function index({ show, setShow, updateAppointments }) {
+    const { totalAppointments, setTotalAppointments } = useContext(CountContext);
+
     const [date,setDate] = useState(new Date(1598051730000));
     const [formatedDate, setFormatedDate] = useState('');
     const [hour,setHour] = useState(0);
@@ -86,6 +89,7 @@ export default function index({ show, setShow, updateAppointments }) {
                     setHour(9);
                     setShow(false);
                     updateAppointments();
+                    setTotalAppointments(totalAppointments+1);
                 }
             } catch (error) {
                 
